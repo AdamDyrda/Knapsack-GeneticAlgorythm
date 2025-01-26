@@ -17,8 +17,20 @@
 
 namespace program {
 
+    /**
+     * @brief function that runs the program
+     * @param userInput user input structure
+     */
     void runProgram(const UserInput &userInput);
 
+    /**
+     * @brief function that runs the genetic algorithm loop
+     * @param userInput user input structure
+     * @param items vector of available items
+     * @param outVector vector of chromosomes
+     * @param generationCounter counter of the generation
+     * @return vector of chromosomes
+     */
     std::vector<Chromosome>geneticLoop(const UserInput &userInput, const std::vector<Item> &items, const std::vector<Chromosome> &outVector,size_t &generationCounter);
 }
 #endif //PROGRAM_H

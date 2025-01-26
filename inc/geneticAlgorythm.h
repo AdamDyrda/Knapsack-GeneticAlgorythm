@@ -44,11 +44,18 @@ namespace genetic {
     std::vector<Chromosome> fitness_function(const std::vector<Chromosome> &population, const std::vector<Item>&items,const float knapsackCapacity);
 
     /**
-     *
+     * @brief function that selects the parents for crossover
      * @param population vector of chromosomes in the population
      * @return chromosomes selected to be parents in crossover
      */
     std::vector<Chromosome> selection(const std::vector<Chromosome> &population);
+
+    /**
+     * @brief function that performs the crossover
+     * @param parents vector of chromosomes selected to be parents
+     * @param numberOfOffspring number of offspring to be created
+     * @return vector of offspring
+     */
 
     std::vector<Chromosome> crossover(const std::vector<Chromosome> &parents,size_t numberOfOffspring);
 }

@@ -91,7 +91,6 @@ std::vector<Chromosome> selection(const std::vector<Chromosome> &population) {
                 parents.push_back(sortedPopulation[i++]);
             }
         }
-        utilities::printGeneration(parents,69);
         return parents;
     }
 }

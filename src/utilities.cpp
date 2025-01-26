@@ -2,6 +2,7 @@
 * @file utilities.cpp
 * @brief Implementation of the utilities functions
 */
+
 #include "../inc/utilities.h"
 
 #include <algorithm>
@@ -100,9 +101,6 @@ void saveToFile(const std::string &path,const std::vector<Chromosome> &results_v
     }
     std::vector<Chromosome>sortedPopulation = results_vector;
     populationSort(sortedPopulation);
-    //debug
-
-    //end
 
     const Chromosome &theBestChromosome = sortedPopulation[0];
     float weight = 0;
