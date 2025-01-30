@@ -13,8 +13,6 @@
 
 #include "../inc/Item.h"
 #include "../inc/individual.h"
-#include "../inc/userInput.h"
-#include "../inc/utilities.h"
 
 struct Item;
 

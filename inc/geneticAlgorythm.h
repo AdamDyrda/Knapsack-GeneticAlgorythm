@@ -9,7 +9,6 @@
 #include <vector>
 #include "item.h"
 #include "individual.h"
-#include <random>
 
 namespace genetic {
 /**
