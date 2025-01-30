@@ -8,8 +8,10 @@
 #define GENOME_H
 #include <string>
 
-struct Chromosome {
+struct Individual {
     std::string chromosome;
     float fitnessScore;
+    float weight;
+    float value;
 };
 #endif //GENOME_H

@@ -14,6 +14,21 @@
 #include "../inc/program.h"
 
 namespace program {
+    void geneticLoop(UserInput const &userInput, std::vector<Item> const &items,std::vector<Individual> &population, size_t &generationCounter) {
+        for (int i = 0; i < userInput.numberOfGenerations; i++) {
+            genetic::fitness_function(population, items, userInput.knapsackCapacity);
+            utilities::printGeneration(population, generationCounter);
+            utilities::saveToFile(userInput.outputFileName, population, generationCounter, items, userInput);
+            genetic::selection(population);
+            genetic::crossover(population, userInput.populationSize);
+            std::cout<<generationCounter/static_cast<float>(userInput.numberOfGenerations)*100<<"% completed"<<std::endl;
+            generationCounter++;
+
+
+        }
+        std::cout<<"check output file for results!"<<std::endl;
+    }
+
     void runProgram(const UserInput &userInput) {
         size_t generationCounter = 1;
         std::vector<Item> items;
@@ -26,31 +41,15 @@ namespace program {
             std::cout<<"Provided input is invalid. Please provide all the necessary arguments";
             return;
         }
-        utilities::clearOutputFile(userInput.filePaths.outputFileName);
+        utilities::clearOutputFile(userInput.outputFileName);
 
-        utilities::parseItems(userInput.filePaths.inputFileName, items);
-
-        std::vector<Chromosome>outVector = genetic::create_population(userInput.populationSize, items.size());
-        geneticLoop(userInput, items, outVector,generationCounter);
-
-
-
-    }
-
-    std::vector<Chromosome>geneticLoop(const UserInput &userInput, const std::vector<Item> &items, const std::vector<Chromosome> &outVector, size_t &generationCounter) {
-        std::vector<Chromosome>population = outVector;
-        for (int i = 0; i < userInput.numberOfGenerations; i++) {
-            population = genetic::fitness_function(population, items, userInput.knapsackCapacity);
-            utilities::saveToFile(userInput.filePaths.outputFileName, population, generationCounter, items, userInput);
-            population = genetic::selection(population);
-            population = genetic::crossover(population, userInput.populationSize);
-            std::cout<<generationCounter/(float)userInput.numberOfGenerations*100<<"% completed"<<std::endl;
-            generationCounter++;
+        utilities::parseItems(userInput.inputFileName, items);
+        std::vector<Individual>population;
+        genetic::create_population(population,userInput.populationSize, items.size());
+        geneticLoop(userInput, items, population,generationCounter);
 
 
-        }
-        std::cout<<"check output file for results!"<<std::endl;
-        return population;
+
     }
 
 }

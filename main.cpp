@@ -10,7 +10,7 @@
 #include "inc/geneticAlgorythm.h"
 #include "inc/item.h"
 #include "inc/utilities.h"
-#include "inc/chromosome.h"
+#include "inc/individual.h"
 #include "inc/program.h"
 #include "inc/userInput.h"
 

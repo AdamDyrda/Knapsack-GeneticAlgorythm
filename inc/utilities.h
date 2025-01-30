@@ -6,7 +6,7 @@
 #define UTILITIES_H
 #include <vector>
 
-#include "chromosome.h"
+#include "individual.h"
 #include "item.h"
 
 #include "userInput.h"
@@ -28,7 +28,7 @@ namespace utilities {
     void parseItems(const std::string &fileName, std::vector<Item> &items);
 
 
-    void printGeneration(const std::vector<Chromosome> &population, const size_t &generationCounter);
+    void printGeneration(const std::vector<Individual> &population, const size_t &generationCounter);
     /**
      * @brief function that validates the user input
      * @param userInput user input structure to be validated
@@ -37,7 +37,7 @@ namespace utilities {
     bool validateUserInput(const UserInput &userInput);
 
    // int randomNumber(size_t max);
-    void populationSort(std::vector<Chromosome> &population);
+    void populationSort(std::vector<Individual> &population);
 
     void clearOutputFile(const std::string &path);
 
@@ -50,8 +50,8 @@ namespace utilities {
      * @param userInput structure containing the user input
      */
 
-    void saveToFile(const std::string &path,const std::vector<Chromosome> &results_vector,
-                    const size_t &generationCounter, const std::vector<Item> &items, const UserInput &userInput);
+    void saveToFile(std::string const &path,std::vector<Individual> const &results_vector,
+                    size_t const &generationCounter, std::vector<Item> const &items, UserInput const &userInput);
 }
 
 #endif //UTILITIES_H

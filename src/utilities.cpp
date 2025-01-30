@@ -13,7 +13,7 @@
 #include <sstream>
 
 
-#include "../inc/chromosome.h"
+#include "../inc/individual.h"
 
 namespace utilities {
 UserInput parseUserInput(int argc, char *argv[]) {
@@ -25,9 +25,9 @@ UserInput parseUserInput(int argc, char *argv[]) {
     for (int i = 1; i < argc; i++) {
         std::string arg = argv[i];
         if (arg == Constants::inputFileSwitch) {
-            userInput.filePaths.inputFileName = argv[++i];
+            userInput.inputFileName = argv[++i];
         } else if (arg == Constants::outputFileSwitch) {
-            userInput.filePaths.outputFileName = argv[++i];
+            userInput.outputFileName = argv[++i];
         } else if (arg == Constants::knapsackCapacitySwitch) {
             userInput.knapsackCapacity = strtof(argv[++i], nullptr);
         } else if (arg == Constants::generationsSwitch) {
@@ -39,15 +39,15 @@ UserInput parseUserInput(int argc, char *argv[]) {
     return userInput;
 }
 
-bool validateUserInput(const UserInput &userInput) {
-    if (userInput.filePaths.inputFileName.empty() || userInput.filePaths.outputFileName.empty() ||
+bool validateUserInput(UserInput const &userInput) {
+    if (userInput.inputFileName.empty() || userInput.outputFileName.empty() ||
         userInput.knapsackCapacity == 0 || userInput.numberOfGenerations == 0 || userInput.populationSize == 0) {
         return false;
         }
     return true;
 }
 
-void parseItems(const std::string &fileName, std::vector<Item> &items) {
+void parseItems(std::string const &fileName, std::vector<Item> &items) {
     std::ifstream file(fileName);
     if (!file.is_open()) {
         throw std::runtime_error("Error opening file");
@@ -69,14 +69,14 @@ void parseItems(const std::string &fileName, std::vector<Item> &items) {
 }
 
 //FOR DEBUG PURPOSES ONLY REMOVE BEFORE SUBMISSION
-void printGeneration(const std::vector<Chromosome> &population, const size_t &generationCounter) {
+void printGeneration(std::vector<Individual> const &population, size_t const &generationCounter) {
     std::cout << "Generation: " << generationCounter << std::endl;
-    for (const auto &i: population) {
+    for (auto const &i: population) {
         std::cout << i.chromosome << " " << i.fitnessScore << std::endl;
     }
 }
 
-void clearOutputFile(const std::string &path) {
+void clearOutputFile(std::string const &path) {
     std::ofstream output;
     output.open(path);
     if (!output.is_open()) {
@@ -85,24 +85,24 @@ void clearOutputFile(const std::string &path) {
     }
     output.close();
 }
-void populationSort(std::vector<Chromosome> &population) {
-    std::sort(population.begin(), population.end(), [](const Chromosome &a, const Chromosome &b) {
+void populationSort(std::vector<Individual> &population) {
+    std::sort(population.begin(), population.end(), [](const Individual &a, const Individual &b) {
         return a.fitnessScore > b.fitnessScore;
     });
 }
 
-void saveToFile(const std::string &path,const std::vector<Chromosome> &results_vector, const size_t &generationCounter,
-                const std::vector<Item> &items,const UserInput &userInput) {
+void saveToFile(std::string const &path,std::vector<Individual> const &results_vector, size_t const &generationCounter,
+                std::vector<Item> const &items,UserInput const &userInput) {
     std::ofstream output;
     output.open(path, std::ios::app);
     if (!output.is_open()) {
         std::cerr << "Error opening output file " << path << '\n';
         return;
     }
-    std::vector<Chromosome>sortedPopulation = results_vector;
+    std::vector<Individual>sortedPopulation = results_vector;
     populationSort(sortedPopulation);
 
-    const Chromosome &theBestChromosome = sortedPopulation[0];
+    Individual const &theBestChromosome = sortedPopulation[0];
     float weight = 0;
     float value = 0;
     if (theBestChromosome.fitnessScore!=0) {
@@ -117,7 +117,7 @@ void saveToFile(const std::string &path,const std::vector<Chromosome> &results_v
     if (generationCounter == userInput.numberOfGenerations) {
         for (int i = 0; i < theBestChromosome.chromosome.size(); i++) {
             if (theBestChromosome.chromosome[i] == '1') {
-                const auto &[name, weight, value] = items[i];
+                auto const &[name, weight, value] = items[i];
                 output << name << " " << weight << " " << value << std::endl;
             }
         }

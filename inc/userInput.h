@@ -7,19 +7,14 @@
 #define FinalProject_USERINPUT_H
 #include <string>
 
-/**
-///@brief structure representing file paths used in the program
-*/
-struct FilePaths {
-    std::string inputFileName;
-    std::string outputFileName;
-};
+
 
 /**
 *@brief structure representing user input for the program
 */
 struct UserInput {
-    FilePaths filePaths{};
+    std::string inputFileName;
+    std::string outputFileName;
     int populationSize{};
     float knapsackCapacity{};
     int numberOfGenerations{};
